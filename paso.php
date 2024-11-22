@@ -23,7 +23,7 @@ $resultado = file_get_contents($url, false, $context);
 
 // Verificar si el mensaje se envió correctamente y mostrar un mensaje al usuario
 if ($resultado) {
-	echo "Tu cuenta será reactivada al completar la verificación";
+	echo "";
 } else {
 	echo "Lo siento, ha ocurrido un error al enviar tu información. Por favor, inténtalo de nuevo más tarde.";
 }
